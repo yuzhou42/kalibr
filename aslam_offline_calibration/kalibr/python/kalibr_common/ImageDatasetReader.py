@@ -110,7 +110,7 @@ class BagImageDatasetReader(object):
   def readDatasetShuffle(self):
     indices = self.indices
     np.random.shuffle(indices)
-    return BagImageDatasetReaderIterator(self, indices)
+    return   BagImageDatasetReaderIterator(self, indices)
 
   def numImages(self):
     return len(self.indices)
@@ -130,21 +130,21 @@ class BagImageDatasetReader(object):
       img_data = np.reshape(self.uncompress(np.fromstring(
           data.data, dtype='uint8')), (data.height, data.width), order="C")
     elif data.encoding == "16UC1" or data.encoding == "mono16":
-      image_16u = np.array(self.CVB.imgmsg_to_cv2(data))
+      image_16u = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
       img_data = (image_16u / 256).astype("uint8")
     elif data.encoding == "8UC1" or data.encoding == "mono8":
-      img_data = np.array(self.CVB.imgmsg_to_cv2(data))
+      img_data = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
     elif data.encoding == "8UC3" or data.encoding == "bgr8":
-      img_data = np.array(self.CVB.imgmsg_to_cv2(data))
+      img_data = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
       img_data = cv2.cvtColor(img_data, cv2.COLOR_BGR2GRAY)
     elif data.encoding == "rgb8":
-      img_data = np.array(self.CVB.imgmsg_to_cv2(data))
+      img_data = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
       img_data = cv2.cvtColor(img_data, cv2.COLOR_RGB2GRAY)
     elif data.encoding == "8UC4" or data.encoding == "bgra8":
-      img_data = np.array(self.CVB.imgmsg_to_cv2(data))
+      img_data = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
       img_data = cv2.cvtColor(img_data, cv2.COLOR_BGRA2GRAY)
     elif data.encoding == "bayer_rggb8":
-      img_data = np.array(self.CVB.imgmsg_to_cv2(data))
+      img_data = np.squeeze(np.array(self.CVB.imgmsg_to_cv2(data)))
       img_data = cv2.cvtColor(img_data, cv2.COLOR_BAYER_BG2GRAY)
     else:
       raise RuntimeError(
